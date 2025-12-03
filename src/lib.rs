@@ -1,0 +1,14 @@
+use std::fs;
+
+pub fn read_file(day: u8, is_real_input: bool) -> String {
+    let path: String = if is_real_input {
+        format!("./inputs/day{:02}.real", day)
+    } else {
+        format!("./inputs/day{:02}.test", day)
+    };
+    fs::read_to_string(&path).unwrap_or_else(|_| panic!("Failed to read {path}"))
+}
+
+pub fn read_lines(input: &str) -> Vec<String> {
+    input.lines().map(|s| s.to_string()).collect()
+}
