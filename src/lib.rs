@@ -10,5 +10,9 @@ pub fn read_file(day: u8, is_real_input: bool) -> String {
 }
 
 pub fn read_lines(input: &str) -> Vec<String> {
-    input.lines().map(|s| s.to_string()).collect()
+    input
+        .lines()
+        .filter(|s| !s.is_empty())
+        .map(|s| s.to_string())
+        .collect()
 }
