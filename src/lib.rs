@@ -17,6 +17,10 @@ pub fn read_lines(input: &str) -> Vec<String> {
         .collect()
 }
 
+pub fn read_lines_without_empty_filter(input: &str) -> Vec<String> {
+    input.lines().map(|s| s.to_string()).collect()
+}
+
 pub fn read_lines_as_chars_vec(input: &str) -> Vec<Vec<char>> {
     input
         .lines()
