@@ -1,5 +1,5 @@
 use aoc2025::*;
-use std::{io, ops::Index, vec};
+use std::{collections::HashSet, io};
 
 fn main() {
     let input = read_file(7, true);
@@ -31,21 +31,20 @@ fn part1(input: &str) -> usize {
     let lines = read_lines(input);
     let first_line = &lines[0];
     let s_index = first_line.find("S").unwrap();
-    let mut tachyon_indices = vec![s_index]; // keep track of which indices have a beam
+    // changed: vec->HashSet so we don't need to keep track of indices by modifying the chars to for when two splits overlap a beam
+    let mut tachyon_indices = HashSet::new(); // keep track of which indices have a beam
+    tachyon_indices.insert(s_index);
     for line in &lines[1..] {
-        let mut chars: Vec<char> = line.chars().collect();
+        let chars: Vec<char> = line.chars().collect();
         // a split changes which indices to keep track of, so we replace at end of line
-        let mut new_indices = vec![];
+        let mut new_indices = HashSet::new();
         for &index in &tachyon_indices {
             if chars[index] == '.' {
-                chars[index] = '|';
-                new_indices.push(index);
+                new_indices.insert(index);
             } else if chars[index] == '^' {
                 // Doesn't seem like ^ is ever on ends, so no out of bounds thankfully
-                chars[index - 1] = '|';
-                chars[index + 1] = '|';
-                new_indices.push(index - 1);
-                new_indices.push(index + 1);
+                new_indices.insert(index - 1);
+                new_indices.insert(index + 1);
                 split_count += 1;
             }
         }
